@@ -27,16 +27,9 @@ public class ExampleBaseState : AsyncStateBehaviour
 
     public override IEnumerator Enter(IAsyncState lastState)
     {
-        if(lastState == null)
-        {
-            GetComponent<CanvasGroup>().alpha = 1;
-            gameObject.SetActive(true);
-            EnableInteraction();
-            yield break;
-        }
-
         DisableInteraction();
         GetComponent<CanvasGroup>().alpha = 0;
+        GetComponent<RectTransform>().SetAsLastSibling();
         gameObject.SetActive(true);
         yield return FadeIn();
         EnableInteraction();
@@ -46,7 +39,8 @@ public class ExampleBaseState : AsyncStateBehaviour
     public override IEnumerator Exit(IAsyncState nextState)
     {
         DisableInteraction();
-        yield return FadeOut();
+        yield return stateMachine.WaitForNewStateEnter();
+        GetComponent<CanvasGroup>().alpha = 0;
         gameObject.SetActive(false);
         yield break;
     }
@@ -61,8 +55,6 @@ public class ExampleBaseState : AsyncStateBehaviour
             GetComponent<CanvasGroup>().alpha = fadeInCurve.Evaluate(
                 Mathf.Clamp01(elapsed/fadeTime)
             );
-
-            Debug.Log(gameObject.name + " Fade In current value: " + GetComponent<CanvasGroup>().alpha);
             yield return null;
             elapsed += useScaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
         }
@@ -78,7 +70,6 @@ public class ExampleBaseState : AsyncStateBehaviour
             GetComponent<CanvasGroup>().alpha = fadeOutCurve.Evaluate(
                 Mathf.Clamp01(elapsed/fadeTime)
             );
-            Debug.Log(gameObject.name + " Fade Out current value: " + GetComponent<CanvasGroup>().alpha);
             yield return null;
             elapsed += useScaledTime ? Time.deltaTime : Time.unscaledDeltaTime;
         }
