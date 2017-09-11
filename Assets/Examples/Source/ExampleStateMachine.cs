@@ -9,7 +9,36 @@ public class ExampleStateMachine : AsyncStateMachine
 	[SerializeField] private ExampleStateB stateB;
 	[SerializeField] private ExampleStateC stateC;
 
-	public ExampleStateA StateA { get { return stateA; } }
-	public ExampleStateB StateB { get { return stateB; } }
-	public ExampleStateC StateC { get { return stateC; } }
+	public ExampleStateA StateA 
+	{ 
+		get { return stateA; } 
+		set { stateA = value; } 
+	}
+
+	public ExampleStateB StateB 
+	{ 
+		get { return stateB; } 
+		set { stateB = value; }  
+	}
+
+	public ExampleStateC StateC 
+	{ 
+		get { return stateC; } 
+		set { stateC = value; }  
+	}
+
+	public void OnStateAPressed()
+	{
+		this.TransitionToState(StateA);
+	}
+
+	public void OnStateBPressed()
+	{
+		this.TransitionToState(StateB);
+	}
+
+	public void OnStateCPressed()
+	{
+		this.TransitionToState(StateC);
+	}
 }
