@@ -64,8 +64,8 @@ namespace PillowTalk.StateMachine
 
         /// <summary>
         /// Marks this state as being active, but not eligible for interaction. By default, this will try
-        /// to set an attached <c>CanvasGroup.interactable</c> to <c>false</c> and mask out
-        /// the concenience <c>InputDown</c> and <c>InputHeld</c> properties.
+        /// to set an attached <c>CanvasGroup.interactable</c> and <c>CanvasGroup.blocksRaycasts</c> to <c>false</c> and mask out
+        /// the convenience <c>InputDown</c> and <c>InputHeld</c> properties.
         /// </summary>
         protected virtual void DisableInteraction()
         {
@@ -74,13 +74,14 @@ namespace PillowTalk.StateMachine
             if (canvasGroup)
             {
                 canvasGroup.interactable = false;
+                canvasGroup.blocksRaycasts = false;
             }
         }
 
         /// <summary>
         /// Marks this state as being eligible for interaction. By default, this will try
-        /// to set an attached <c>CanvasGroup.interactable</c> to <c>true</c> and resume proper output of
-        /// the concenience <c>InputDown</c> and <c>InputHeld</c> properties.
+        /// to set an attached <c>CanvasGroup.interactable</c> and <c>CanvasGroup.blocksRaycasts</c> to <c>true</c> and
+        /// resume proper output of the convenience <c>InputDown</c> and <c>InputHeld</c> properties.
         /// </summary>
         protected virtual void EnableInteraction()
         {
@@ -89,6 +90,7 @@ namespace PillowTalk.StateMachine
             if (canvasGroup)
             {
                 canvasGroup.interactable = true;
+                canvasGroup.blocksRaycasts = true;
             }
         }
 
