@@ -129,6 +129,11 @@ namespace PillowTalk.StateMachine
             return StartCoroutine(WaitForNewStateEnterInternal());
         }
 
+        public Coroutine WaitForTransitionComplete()
+        {
+            return StartCoroutine(WaitForTransitionCompleteInternal());
+        }
+
         /// <summary>
         /// Standard Unity Awake message.
         /// </summary>
@@ -225,6 +230,14 @@ namespace PillowTalk.StateMachine
         private IEnumerator WaitForNewStateEnterInternal()
         {
             while (!newStateTransitionComplete)
+            {
+                yield return null;
+            }
+        }
+
+        private IEnumerator WaitForTransitionCompleteInternal()
+        {
+            while (IsTransitioning)
             {
                 yield return null;
             }
