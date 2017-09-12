@@ -97,7 +97,9 @@ namespace PillowTalk.StateMachine
         }
 
         /// <summary>
-        /// Try to force a transition to complete immediately
+        /// Try to force a transition to complete as quickly as possible. Note: depending on the structure of
+        /// the state transitions, this may not be possible on the frame this is called! You should still
+        /// wait on WaitForTransitionComplete to ensure that the states are cleaned up properly.
         /// </summary>
         public void Interrupt()
         {

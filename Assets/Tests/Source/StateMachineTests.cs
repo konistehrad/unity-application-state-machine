@@ -67,5 +67,24 @@ public class StateMachineTests
         // ensure that StateA has well and truly gone away
         Assert.That(stateMachine.StateA.gameObject.activeInHierarchy, Is.EqualTo(false));
 
+
+        // transition from state B to C
+        stateMachine.TransitionToState(stateMachine.StateC);
+        yield return null;
+
+        // ensure double-pumping a transition throws an exception
+        Assert.Throws<System.InvalidOperationException>(
+            () => {
+                stateMachine.TransitionToState(stateMachine.StateA);
+            }
+        );
+
+        // ensure that interrupts work 
+        stateMachine.Interrupt();
+        yield return stateMachine.WaitForTransitionComplete();
+        Assert.That(stateMachine.IsTransitioning, Is.EqualTo(false));
+
+        
+
     }
 }
